@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name= "Hum">#52D5C1</color>
+    <color name="Tem">#ECA432</color>
+    <color name="Time">#4FEB53</color>
+    <color name="LayoutCheck">#FFEB3B</color>
+    <color name="pm1">#E01B1B</color>
+    <color name="pm2_5">#E05037</color>
+    <color name="pm10">#E06666</color>
+    <color name= "white">#FFF</color>
+</resources>
