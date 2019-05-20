@@ -2,6 +2,8 @@ package com.example.bkic.testmqtt;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -10,6 +12,8 @@ import android.os.Build;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +37,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PermissionInternet();
         setContentView(R.layout.activity_main);
+        PermissionInternet();
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         myRingtone = RingtoneManager.getRingtone(getApplicationContext(),uri);
         connect();
+        Button button= findViewById(R.id.btn_esp2);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Activity2.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -61,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Toast.makeText(MainActivity.this, "Connected", Toast.LENGTH_SHORT).show();
                     subscribe(client,"topic");
-                    subscribe(client, "Độ ẩm");
+                    subscribe(client, "topic2");
                     client.setCallback(new MqttCallback() {
                         TextView tvTime = findViewById(R.id.tv_Time);
                         TextView tvTemp = findViewById(R.id.tv_Temp);
@@ -69,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
                         TextView tvPM1 = findViewById(R.id.tv_pm1);
                         TextView tvPM2_5 = findViewById(R.id.tv_pm2_5);
                         TextView tvPM10 = findViewById(R.id.tv_pm10);
+
+                        //khai báo cho con esp 2
+                        TextView tvTime2 = findViewById(R.id.tv_Time_2);
+                        TextView tvTemp2 = findViewById(R.id.tv_Temp_2);
+                        TextView tvHum2 = findViewById(R.id.tv_Hum_2);
+                        TextView tvPM1_2 = findViewById(R.id.tv_pm1_2);
+                        TextView tvPM2_5_2 = findViewById(R.id.tv_pm2_5_2);
+                        TextView tvPM10_2 = findViewById(R.id.tv_pm10_2);
                         @Override
                         public void connectionLost(Throwable cause) {
                             Toast.makeText(MainActivity.this, "Connection is lost",Toast.LENGTH_SHORT).show();
@@ -82,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 vibe.vibrate(350);
                                 myRingtone.play();
-                               // tv1.setText(message.toString());
+                                // tv1.setText(message.toString());
                                 String chuoi = message.toString();
                                 String[] output= chuoi.split("-");
                                 tvTime.setText(output[0] + " " +output[1]);
@@ -92,6 +112,20 @@ public class MainActivity extends AppCompatActivity {
                                 tvPM2_5.setText("PM2.5: "+ output[5] + "µg/m³");
                                 tvPM10.setText( "PM10: "+ output[6] + "µg/m³");
                             }
+//                            if (topic.equals("topic2")){
+//
+//                                vibe.vibrate(350);
+//                                myRingtone.play();
+//                                // tv1.setText(message.toString());
+//                                String chuoi2 = message.toString();
+//                                String[] output= chuoi2.split("-");
+//                                tvTime2.setText(output[0] + " " +output[1]);
+//                                tvTemp2.setText(output[2] + "°C");
+//                                tvHum2.setText(output[3] + "%");
+//                                tvPM1_2.setText("PM1: "+output[4] + "µg/m³");
+//                                tvPM2_5_2.setText("PM2.5: "+ output[5] + "µg/m³");
+//                                tvPM10_2.setText( "PM10: "+ output[6] + "µg/m³");
+//                            }
 
                         }
 
@@ -99,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
                         public void deliveryComplete(IMqttDeliveryToken token) {
                         }
 
-                    });
+                    }
+
+                    );
                 }
 
                 @Override

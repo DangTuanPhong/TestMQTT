@@ -178,6 +178,11 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <Button
+        android:text="Chuyển đến Esp2"
+        android:id="@+id/btn_esp2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
 
